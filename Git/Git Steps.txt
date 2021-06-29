@@ -1,0 +1,129 @@
+                                                                    GIT
+                                                                  _______
+github.com
+    create an account. Sign up
+    create a repository
+    copy the commands and keep it
+-----------------------------------------
+Download git in your computer
+      https://git-scm.com/download/win
+
+install 
+      Git-2.30.0.2-64-bit
+
+go to cmd type below command
+      git --version
+ 
+-----------------------------------------------
+set up global variable
+    git config --global user.name "yourGitUserName"
+    git config --global user.email "yourGitEmail"
+    (check c:\users\yourname\.gitconfig         (or)
+    git config --list --show-origin
+
+  ex: git config --global user.name Kranthi-45
+      git config --global user.email kranthikumarbolli@gmail.com
+
+Git Push commands 
+-------------------------
+git init
+git add .
+git commit -m "first commit"
+git branch -M deepak
+git remote add origin https://github.com/jagasia/java-batch.git
+git push -u origin deepak
+
+        or
+
+git remote add origin https://github.com/jagasia/rajesh.git
+git push -u origin main
+
+
+Git Pull commands
+-----------------------------
+
+
+git init
+git remote add origin https://github.com/jagasia/rajesh.git
+git pull origin swati
+
+-----------------------------------
+if you get remote folder is already exist , remove that using below commad
+
+git remote rm origin
+
+------------------------------------------------------------------------------------Steps Git Pushing------------------------------------------------------------
+
+1) Create Github account and sign up
+2) Download git application in your computer
+3) Create new Repository in newly created or existing github account   ex: GitDemoKranthi
+4) Copy below command lines from newly created repository
+
+     	echo "# GitDemoKranthi" >> README.md
+	git init
+	git add README.md
+	git commit -m "first commit"
+	git branch -M main
+	git remote add origin https://github.com/Kranthi-45/GitDemoKranthi.git
+	git push -u origin main
+
+5) Create folder with any name 
+         ->  ex: "Git Push Demo"
+    in any location or directory 
+         ->  ex: C:\Users\DELL\OneDrive\Desktop\Git Push Demo  (type cmd in this location bar then cmd will open with this directory directly or open normally specify folder loc)
+    there is a file to push into our repository() or another repository(jagasia repo)
+         ->  ex: Kranthi1.txt
+
+4) type "dir" in cmd to check all avalaible files in above location
+
+5)  Type below commands in cmd to push the files(ex:"Kranthi1.txt") into repository
+    
+     git init
+     git add Kranthi1.txt
+     git commit -m "first commit"
+     git branch -M main 
+     git remote add origin https://github.com/Kranthi-45/GitDemoKranthi.git
+     git push -u origin main
+    
+ 6) After above commands shows as below type 1
+ 
+       Displays  : Select an authentication method for 'https://github.com/':
+			  1. Web browser (default)
+  			  2. Personal access token
+		option (enter for default): 1
+ 
+7) Then browser will get opened gets message as below:
+             
+					Authentication Succeeded
+			You may now close this tab and return to the application
+
+8) Pushing is Done check Repository    
+     
+--------------------------------------------------------------------------------Steps Git Pulling-----------------------------------------------------------
+
+1) Create new empty folder with any name 
+         ->  ex: "Git Pull Demo"
+   in any location
+         ->  C:\Users\DELL\OneDrive\Desktop\Git Pull Demo (type cmd in this location bar then cmd will open with this directory directly or open normally specify folder loc)
+
+2)  
+        git init
+	git remote add origin https://github.com/Kranthi-45/GitDemoKranthi.git
+	git pull origin main    
+         
+      # "git pull origin main"  (how to know the origin in above command ex: main )                
+      #  main ( in repository -> Kranthi-45/GitDemoKranthi -> connection symbol( click on branch and see left side "main" is selected default so use main in orgin to pull files))
+
+3) After above commands displays as below in cmd:
+
+        remote: Enumerating objects: 33, done.
+	remote: Counting objects: 100% (33/33), done.
+	remote: Compressing objects: 100% (23/23), done.
+	remote: Total 33 (delta 1), reused 33 (delta 1), pack-reused 0
+	Unpacking objects: 100% (33/33), 5.27 KiB | 32.00 KiB/s, done.
+	From https://github.com/Kranthi-45/GitDemoKranthi
+	 * branch            main       -> FETCH_HEAD
+ 	* [new branch]      main       -> origin/main
+
+4) Pulling is also Done check folder wheather the files pulled from repository or not
+
