@@ -23,6 +23,16 @@ set up global variable
 
   ex: git config --global user.name Kranthi-45
       git config --global user.email kranthikumarbolli@gmail.com
+      
+To Pull or Push into my repository by from Others repository : (Collobaration Steps)
+----------------------------------------------------------
+ -> first need to collabarate with other respository, so i need to send invitation to others to collobarate with me
+ -> To do Collaborate (steps) :
+ 		
+	 -Open newly created Repository ex: GitDemoKranthi
+	 - Settings -> Manage Access -> Invite a collobarator
+          
+
 
 Git Push commands 
 -------------------------
@@ -81,10 +91,18 @@ git remote rm origin
      git init
      git add Kranthi1.txt
      git commit -m "first commit"
-     git branch -M main 
+     git branch -M main                                                            (ex : use "GitDemoKranthi" instead main) 
      git remote add origin https://github.com/Kranthi-45/GitDemoKranthi.git
-     git push -u origin main
-    
+     git push -u origin main                                                       (ex : use "GitDemoKranthi" instead main) 
+   
+   -> main : is known as repository know that u want to pull or push the files
+      ex: GitDemoKranthi(repository)
+      
+     git branch -M GitDemoKranthi 
+     git remote add origin https://github.com/Kranthi-45/GitDemoKranthi.git
+     git push -u origin GitDemoKranthi
+      
+   
  6) After above commands shows as below type 1
  
        Displays  : Select an authentication method for 'https://github.com/':
@@ -109,7 +127,7 @@ git remote rm origin
 2)  
         git init
 	git remote add origin https://github.com/Kranthi-45/GitDemoKranthi.git
-	git pull origin main    
+	git pull origin main   (ex: instead main use "GitDemoKranthi")  
          
       # "git pull origin main"  (how to know the origin in above command ex: main )                
       #  main ( in repository -> Kranthi-45/GitDemoKranthi -> connection symbol( click on branch and see left side "main" is selected default so use main in orgin to pull files))
