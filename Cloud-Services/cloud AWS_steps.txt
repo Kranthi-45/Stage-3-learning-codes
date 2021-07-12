@@ -1,0 +1,190 @@
+Cloud AWS: 
+---------------------------------------
+IAAS		Infrastructure as a Service
+PAAS		Platform as a service
+SAAS		Software as a service
+
+
+we have create a project (web application)
+so we need to upload the project in a server
+
+so that anybody from anywhere  in the world can access it
+
+localhost means only in this computer
+
+upskillit.com
+something.com
+	this will map to ip address and port number
+
+2 strategies:
+1) we have own servers
+2) we hire servers
+
+own server means, we need huge infrastructure
+
+localhost:8080
+
+in next or another computer
+	we used to enter ip address of that computer
+	and access that web app from other computer also
+
+http://192.168.2.58:8080
+
+in LAN we are able to access within local network
+
+but in server, anybody can access
+
+that makes lot of users to access
+
+due to more number of users, the performance of the application is affected.
+to improve performance, we need to improve the infrastructure
+	by increasing number of processors 
+
+everytime, the demand increases, we are forced to upgrade our infrastructure
+
+on weekends, bookmyshow app is used heavily
+on weekdays, it is very less
+
+on more demand, we buy more infra, means, when demand is less? we cannot downgrade our infra
+
+Scalability
+	is the ability to provision or deprovision based on my necessaity
+
+Own infra is rigid
+	our infra does not change to changing needs
+	and sudden increase of users, cannot be scaled by infra. 
+	It takes time to upgrade infra.		NOT Agile
+	Agility 
+
+We need to find a solution.
+IAAS
+-----
+
+2004	google had a cluster of 40000 processors
+
+searching for a file in our own hard disk took around 4 minutes
+searching an info in google took around 0.004 seconds		(google is not present in our computer)
+
+
+clustered server
+cluster
+	Nodes					node can be compared to CPU
+		PODS			
+			container
+				
+
+Cloud and Database
+
+db
+	storage
+
+cloud
+	storage
+	compute
+	
+
+The three basic types of cloud services are:
+
+Computing			containers			we deploy our rest api, mvc in cloud
+Storage
+Networking
+
+
+private
+public
+hybrid			combination of private and public
+
+
+Cloud Service Providers	
+	
+Microsoft Azure
+Google	GCP
+Amazon 	AWS
+
+
+
+hOW TO deploy our applications in aws?
+1) elastic beanstalk
+	upload .jar or .war
+
+2) ECS and EKS
+	Elastic Container Service
+	Elastic Kubernetes Service
+
+	deploy docker image into the cloud
+
+
+
+
+1) spring boot CLI
+
+
+EC2
+	Elastic Cloud Compute
+
+
+-------------------------------------------------------------------------AWS Steps-------------------------------------------------------------
+
+1) Create one springBoot application to deploy in AWS & checking
+
+2) Create project (aws-springBoot-demo): java 8, maven, jar -> add dependencies devtools,spring web
+
+3) Create sample RestController project in main application as below:
+   -open (AwsSpringDemoApplication.java)
+  
+	@SpringBootApplication
+	@RestController
+	public class AwsSpringDemoApplication 
+         {
+		@GetMapping("/")
+		public String home() {
+			return "Hi, this rest api for AWS is created by Kranthi";
+		}
+		public static void main(String[] args) {
+			SpringApplication.run(AwsSpringDemoApplication.class, args);
+		}
+	 }
+4) Open (application.properties): server.port=5000
+
+5) Run application & check localhost : 
+   
+      URL: http://localhost:5000/
+
+  After successfuly creation of project to deploy in AWS & test it .... we need to upload jar file of project
+  - so now we extract jar file from created springboot project
+
+6) jar file:
+   --------- 
+   Rightclick(project) -> Run As -> Maven build -> set Goals: clean install ->Apply & Run ( Build Success) -> 
+    ->Refresh project first -> under target folder (jar is created) -> aws-spring-demo-0.0.1-SNAPSHOT.jar 
+
+
+   - if "Build failed"  error: no compiler is provided 
+                                (when we use new workspace we need to set jdk again in java(installed JRES))
+     
+      steps: Window-> Preferences ->Java -> Installed JREs (if only Jre found) -> Add select JDK folder 
+            (untill bean) -> finish & Apply close -> now run the program
+
+7) AWS
+   ----
+     - sign in AWS with credentials
+     - seach elastic beanstalk -> select java (tomcat if needed) -> Application Code(Upload your code)
+       -> Choose file -> select jar from computer(that we are created above) -> Create application (click)
+       ->Environments (shows Creating aws_springBoot_demo-env (takes few nimutes)) -> after completion under
+         " Application 'aws_springBoot_demo' environments " shows uploaded jar -> copy URL 
+      
+      Copy Url & check in browser now output can be seen
+     
+      By deploying project into AWS cloud we will access any project from any where & any number of users
+      using url
+
+8) After deploying if u want to remove 
+      - Recent Environment  -> Action -> terminate
+        
+      - search VPCs          -> action -> delete vpc
+        under VPC-select subnets -> action -> delete all subnets
+      
+      - come to main window Application 'aws_spring_demo' environments -> action -> Delete application
+
+      - Serch EC2 (select) -> under EC2 dashboard -> Instances -> Action -> Terminate
+  
