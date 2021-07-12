@@ -23,7 +23,6 @@ Create 2 seperate Projects possible in 2 different workspaces
                      take care of all CRUD operations in DB
 	project 2: MVC project feign client
 		     should access REST API using Feign client
-
 ----------steps------------
 
 1) Create REST Api project  : dependencies : devtools, spring web, Data JPA
