@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     
+    <script>
+        $(document).ready(()=>{                                         // same as "$(document).ready(function(){}"
+            $(".txt").focus(function(){
+                $(this).css("background-color","yellow");              // focused yellow when cursor is placed else blurred
+            });
+            $(":text").blur(function(){
+                $(this).css("background-color","white");
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+    <input type="text" name="" id="1" class="txt"><br>                  <!--Class selector : class="txt" =>  $(".txt")-->
+    <input type="text" name="" id="2" class="txt"><br>                  <!--psuedo selector : type="text" =>  $(":text")-->
+    <input type="text" name="" id="3" class="txt"><br>
+    <input type="text" name="" id="4" class="txt"><br>
+    <input type="text" name="" id="5" class="txt"><br>
+    <input type="text" name="" id="6" class="txt"><br>
+    <div id="result"></div>
+</body>
+</html>

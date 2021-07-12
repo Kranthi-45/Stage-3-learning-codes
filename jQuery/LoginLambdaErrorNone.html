@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+ 
+<!-- <script src="https://code.jquery.com/jquery-3.6.0"> integrity=""</script>
+ -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(()=>{
+         $("#btnLogin").click(()=>{
+           
+             if($("#username").val()==$("#password").val())
+             {
+             
+            }
+         });
+    });
+
+</script>
+<body>
+    Username:      <input type="text" name="" id="username">   <br>
+    Password:      <input type="text" name="" id="password">   <span style="display: none;" id="divPwd">Username and Password cannot be same</span> <br>  
+ Confirm Password: <input type="text" name="" id="cpassword">  <span style="display: inline; color:red" id="cPwd">Password and Confirm password does not match</span> <br>    
+    
+    <input type="button" value="Login" id="btnLogin">  
+                                                                <!--inline will displays and none will hide data-->                             
+</body>
+</html>

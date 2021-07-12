@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#btnAdd").click(function(){
+                $("p").append("<br/>  <b>this is appended text.</b> ");
+        });
+
+        $("#btnPrepend").click(function(){
+            $("p").prepend("  <b><i>this is prepended text.<i><b> <br/>");
+        });
+          
+    });
+        
+    </script>
+</head>
+<body>
+    <p> This is paragraph.</p>
+    <br>
+    <input type="button" value="Add" id="btnAdd">
+    <input type="button" value="Prepend" id="btnPrepend">
+</body>
+</html>

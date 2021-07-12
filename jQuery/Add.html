@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    </script>
+
+    <script>
+        $(document).ready(function(){
+             $("#btnAdd").click(function(){
+                alert("You clicked the button");
+                // how to get value from the text box below javascript and jquery statestment
+                //  var x=document.getElementById("no1").value;
+                //  var y=document.getElementById("no2").value;             //javascript
+
+                 // var x=$("#no1").val();
+                //  var y=$("#no2").val();                                  //jquery
+
+                 var x=parseInt($("#no1").val());
+                 var y=parseInt($("#no2").val());
+                 alert(x+y);
+
+                $("#result").html("The sum of  <b>"+x+"<b> and <b>"+y+"<b> is " + (x+y));
+              });
+            
+            $("#btn2").click(function(){
+                   alert("Hello this is button 2");
+             });
+
+        });
+    </script>
+</head>
+<body>
+    Number 1: <input type="number" name="" id="no1"><br>
+    Number 2: <input type="number" name="" id="no2"><br>
+    <input type="button" value="Add" id="btnAdd"> <input type="button" value="Ok" id="btn2">
+    <div id="result"></div>
+</body>
+</html>

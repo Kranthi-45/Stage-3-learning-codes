@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+</head>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0"> integrity=""</script> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(()=>{
+         $("#btnLogin").click(()=>{
+             var username=$("#username").val();
+             var password=$("#password").val();
+             var cpassword=$("#cpassword").val();
+             //alert(username + ":"+ password + ":"+ cpassword);
+             if(username==password && username!="" && password!="")
+             {
+               //failure1
+               $("#divPwd").html("<font color=red> Username and Password cannot be same</font>");
+             }
+             else
+                $("#divPwd").html("");                                                                         // when we give correct details then error mssg will diappear
+             if(password!=cpassword)
+             {
+               //failure2
+               $("#cPwd").html("<font color=red> Password and Confirm password does not match</font>");
+             }else
+                $("#cPwd").html("");
+             if(username!=password && password==cpassword)   
+             alert("You have Successfully Logged in")
+         });
+    });
+
+</script>
+<body> 
+   <div class="jumbotron"><h2 style="text-align:center;">Login Form</h2></div> 
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        Username: <input type="text" name="" id="username" class="form-control"><br>
+        Password: <input type="text" name="" id="password" class="form-control"><span id="divPwd"></span> <br>  
+        Confirm Password: <input type="text" name="" id="cpassword" class="form-control"> <span id="cPwd"></span> <br>    <!--using span instead div to display error mddg in same line not in entire row in next line --> 
+        
+        <input type="button" value="Login" id="btnLogin" class="btn btn-success">                                                                 <!-- we use above tags in table to display correctly-->
+                                                                                          
+    </div>
+    <div class="col-md-4"></div>
+  </body>
+</html>
