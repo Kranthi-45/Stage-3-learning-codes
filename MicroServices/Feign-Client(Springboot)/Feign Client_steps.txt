@@ -1,0 +1,203 @@
+Micro Servcies:
+--------------  in one project they have lot of rest api
+
+      product service
+      customer service   
+      sales service
+      feedback service
+  
+  - Above all separate spring boot project with rest controller & different port
+  - All these services are registered in eureka server we have created 4 micro services
+    these services, each will run in different port number
+  - eureka server runs in 8761 port number.
+  - spring security - mysql of our own db
+ 
+ Below we are creating one micro service using Feign Client to access it
+
+  
+REST API using Feign client :
+----------------------------
+Create 2 seperate Projects possible in 2 different workspaces
+
+	project 1: Rest API
+                     take care of all CRUD operations in DB
+	project 2: MVC project feign client
+		     should access REST API using Feign client
+
+----------steps------------
+
+1) Create REST Api project  : dependencies : devtools, spring web, Data JPA
+    "product-rest"
+
+2) Go to mvn repository add "my-sql-connector"(8.0.23 v) jar or dependency in (pom.xml)
+
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+    		<groupId>mysql</groupId>
+    		<artifactId>mysql-connector-java</artifactId>
+    		<version>8.0.23</version>
+	</dependency>
+
+3) Open (application.properties) : add below configurations 
+                                (dont use default server(8080) put server port anything(ex:5000) because )
+     
+        server.port=5000
+
+	spring.datasource.url=jdbc:mysql://localhost:3306/kranthis
+	spring.datasource.username=root
+	spring.datasource.password=Ks_961796
+
+	spring.datasource.hikari.connection-timeout=20000
+	spring.datasource.hikari.minimum-idle=5
+	spring.datasource.hikari.maximum-pool-size=12
+	spring.datasource.hikari.idle-timeout=300000
+	spring.datasource.hikari.max-lifetime=1200000
+
+	spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+	spring.jpa.properties.hibernate.id.new_generator_mappings = false
+	spring.jpa.properties.hibernate.format_sql = false
+	spring.jpa.hibernate.ddl-auto=update
+	spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+	logging.level.org.hibernate.SQL=DEBUG
+	logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+5) Create Entity Class(Product): use 
+  	@Entity
+  	@Id
+  	@Lob - it is used for picture(file)
+
+   Run the spring project, then JPA will create automatically table in mysql database
+
+3) Open MySQL database :
+    check table created or not - table created with name " product "
+
+4) Create Repository Interface(ProductRepository):
+    - @Repository
+    - extends to JpaRepository<Product, Long>
+
+5) Create Service class ProductService):
+    - @Service
+    - @Autowired ProductRepository 
+    - create all crud operations methods here directly
+
+6) Create Controller class (ProductController):
+    - @RestController  : becoz it is Rest API Service
+    - @Autowired ProductService	
+    - Creat all REST API services
+          get,post,put,delete - 
+
+7) Run via SpringBoot project : 
+       check this REST API using URLS in browser & postman as well by adding, modifying & deleting objects in product table for checking
+      
+       Base URL: http://localhost:5000/Product  (use : get/post/put/delete in postman)
+  
+    - if any url is notworking or while adding second object if it is not added getting error -, 
+       see address bar, URL will get appended each time we submit becoz of missing " / " fronslash. if u give "/" infront of url avoid appending urls & works properly
+
+    - Open MySQL db there it " product " table is created.
+
+
+------REST Api project completed ---------- next feign client project----------
+
+8) Open another workspace 
+   create feign client project ( mvc-product-feign-demo ): add dependencies spring web, OpenFeign, devtools
+
+9) Open (application.properties) : set configurations (use 8080 port here)
+   
+	server.port=8080
+
+	spring.mvc.view.prefix=/WEB-INF/views/
+	spring.mvc.view.suffix=.jsp
+
+10) Open main method (MvcProductFeignDemoApplication) : Enable feign using annotation.
+     
+       @SpringBootApplication
+       @EnableFeignClients
+
+11) Create interface (MyClient): use annotation with base REST Service url
+
+      - @FeignClient(value= "myclient-api", url = "http://localhost:5000")
+      - Define all unimplemented methods of Products here 
+         go to previous Rest Project 
+               
+              "product-rest"(project)-> ProductController (Right click) -> Refactor -> ExtractInterface (select all) -> give inteface (ex: dummy) -> copy all those methods & paste here
+                    or
+              "product-rest"(project)-> copy all methods from " ProductController " -> paste here in MyClient.java & remove extra returns thats it.
+
+12) Create Again Model Class (Product):  model class for above interface 
+      - dont write any annotations.
+
+13) Create JSP pages :
+    - project (Right click on "webapp" folder) -> New -> Folder -> WEB-INF/views (create new folder under webapp)
+   
+    - Create .jsp file : Right click views -> New -> search or select jsp -> product.jsp (create jsp page) 
+        
+     write few lines in jsp for testing : to run display jsp pages tomcat should be added & create controller class  firstto define pages url
+
+14) Create Controller (ProductController): write some GetMapping("") for returnin jsp pages
+     - @Controller
+     - @Autowie private MyClient mc
+
+	@GetMapping("/")
+	public String home()
+	{
+		return "product";
+	}
+  
+15) Run Project & check jsp page is displaying or not using
+      URL : http://localhost:8080
+   
+    if you get Errors as " Path with "WEB-INF"   add tomcat server v9.0 going to targetted Runtime 
+
+16) Copy Some Bootsraplines from w3schools & paste in (product.jsp)
+ 
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+     
+   create <div> tags for form inputs & tables (for displaying products) in product.jsp
+
+17) Add jstl 1.2 dependency in (pom.xml):  for using forEach loop to displaying records          
+           
+                <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+   
+   use this jstl taglib in (product.jsp): foEach loop
+
+      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+      <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
+
+18) Open (product.jsp )Create table and also form input fields with <form:input path directive for url mapping 
+ 
+       ex:
+            <form:form method="POST" class="container-fluid" modelAttribute="product" action="/product">   
+	            Id:<form:input path="id" class="form-control" /> 
+
+                    <input type=submit class="btn btn-success" name="add" value="Add" />  
+  ----------------
+         * <!-- Forms  modelAttribute="product" is same as  @ModelAttribute("product") of Controller class -->
+         * <!--    ''    ''   modelAttribute is  mv.addObject("product",new Product()) (of Controller class);  -->
+         * <!-- When u submit form action="/product" goes to controller & finds that url method(/product)  -->
+
+         <!-- ${products } is  mv.addObject("products",products) (of Controller class); -->  
+                 
+                 "products" is list of product variable in Controller class --- we place that varible in b/w ${} to use that in jsp as table of records  
+
+19) Open (ProductController):
+     define all methods & using ModelAndView & requestmapping urls , sample method shown below
+       
+        ex:  @RequestMapping(method =RequestMethod.POST, value = "/product", params = "modify")
+	     public ModelAndView modifyProduct(@ModelAttribute("product") Product product) { 
+                 }
+    ----------------
+          * Param is used here name="" attribute is important in form submit buttons(add,modify,delete)
+              // same url is used but different params to differentiate urls mapping & method
+
+20) Run both the "RestAPI Project" & "mvc feign Client project"
+    check output adding the details
+  
+-----------------------------------completed-----------------------------------  
