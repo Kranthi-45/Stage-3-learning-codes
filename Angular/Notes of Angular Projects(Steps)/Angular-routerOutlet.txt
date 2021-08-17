@@ -1,0 +1,69 @@
+1) Open (app.component.html) remove branch,airline, login components firsts 
+    put one menu : menu options are - Branch
+                                    - Airlines
+                                    - Login
+  -------
+  - Whenever menu i clicked that component should be displayed in that specific location of our (app.component.html)
+    specific location means ?
+           do we have place holder? ,yes  -> <router-outlet></router-outlet>
+                                  
+2) Write " <router-outlet></router-outlet> " in (app.component.html) as below:
+     <div class="col-md-4">
+          <router-outlet></router-outlet>
+     </div> 
+  
+    Route:       mapping between url & component
+    ------- 
+    RouterLink:  a link that provides urls
+    ----------
+	
+    - while creating project we chosen routing (yes)
+	in (app.module.ts)
+		AppRoutingModule	is imported
+
+	a file named as
+		(app-routing.module.ts)	is created
+
+3) Copy bootsrap lines related "menu navbar" from w3schools: paste it below jumbotron <div> tag  in (app.component.html) 
+
+    <nav class="navbar navbar-inverse">
+       <div class="container-fluid">
+   	 <div class="navbar-header">
+             <a class="navbar-brand" href="#">WebSiteName</a>
+    	 </div>
+   	   <ul class="nav navbar-nav">
+     		<li class="active"><a href="#">Home</a></li>
+      		<li><a href="#">Page 1</a></li>
+      		<li><a href="#">Page 2</a></li>
+      		<li><a href="#">Page 3</a></li>
+            </ul>
+        </div>
+     </nav>   
+
+4) Open (app-routing.module.ts) then there is " Routes [] " as shown below by default....include all paths & component in that array  (airlines,branch,login) 
+     
+      const routes: Routes = [];
+                                                                                                           // path:'branch' is used for url mapping see 5th. point
+   ex: const routes: Routes = [
+  	    {path:'branch',component:BranchComponent},                                                     
+ 	    {path:'airline',component:AirlineComponent},
+  	    {path:'login',component:LoginComponent},
+	];
+
+5) Now Run the program : if you press nav bar buttons will not work becoz in (app.html) we used ' href="#" ' not mentioned links, but if we use below urls individually will work 
+     
+        http://localhost:4200/branch
+        http://localhost:4200/airline
+	http://localhost:4200/login
+
+6) To overcome above problem remove href="#" from (app.component.html) 
+                                                                            instead use [routerLink]="['branch']" 
+     
+   Go to (app.component.html) include below lines in form:
+                  
+      <ul class="nav navbar-nav">
+    	<li class="active"><a href="#">Home</a></li>
+      	<li><a [routerLink]="['branch']">Branch</a></li>
+      	<li><a [routerLink]="['airline']">Airline</a></li>
+      	<li><a [routerLink]="['login']">Login</a></li>
+     </ul>

@@ -1,0 +1,46 @@
+
+npm install -g @angular/cli
+
+ng -v version
+
+npm install -g typescript
+
+tsc -v
+
+
+1)    ng new projectname                 -> name should not start with number
+      asks if you need "routing" or not. ->  i chose No
+      style?                             ->  i chose CSS
+
+from Jagadeeswaran Rangappan to everyone:    3:55 PM
+
+npm install -g @angular/cli
+ng -v version
+npm install -g typescript
+tsc -v
+ng new project1 --style=css --routing
+cd project1
+ng serve -o
+
+
+ng g c                component
+ng g s                 service
+ng g class            class
+ng g pipe            pipe
+annotations are called as Decorators in angular
+-------------------------------------------------------------
+1) create an angular project
+2) open the project folder in vs code
+3) delete all code in app component
+4) create a login component using terminal
+    ng g c login
+5) plug this login component inside app component        (using selector)
+6) run the project
+    ng serve -o            (this we can do in another cmd prompt. so that it is always running)
+
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+------------------------------------------------------------------------------
+
+https://github.com/jagasia/angular
+

@@ -1,0 +1,48 @@
+1) Open (login.component.ts) : write 
+       
+        today:Date=new Date();
+  	salary:number=123456.7890;
+  	name:string='this is a sentence'
+
+2) open (login.component.html) : write below lines ( to format above values using pipes)
+         
+        {{today}}   <br>
+	{{today | date:'long'}} <br>
+	{{today | date:'short'}} <br>
+	{{today | date:'dd-MM-yyyy'}} <br>
+
+	{{salary | number:'1.1-2'}} <br>
+
+	{{ name | uppercase }} <br>
+
+	{{ name |titlecase}}  <br>
+
+	{{ 'this is heading ' | headingLen }} 
+
+	<!--
+    	for custome pipe create component using
+    	" ng g pipe headingLen "
+
+	    - write the code in "transform() method" of heading component
+	    - {{ 'this is heading ' | heading }} 
+	-->
+
+
+Custom pipe: (ex: returning length of given string)
+    
+1) create custome pipe component
+     " ng g pipe headingLen "
+  
+   After creating open (open.module.ts) u see " headingLen " will imported automatically.
+
+2) Open (heading-len.pipe.ts) file : write below code (of length)
+
+    transform(value: any, ...args: unknown[]): unknown {
+    return value.length;
+  }
+
+3) Open (login.component.html) : write {{}} to display the length of heading as below
+
+    {{ 'this is heading ' | headingLen }} 
+
+  o/p : 16

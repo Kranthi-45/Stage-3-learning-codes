@@ -1,0 +1,155 @@
+1) create angular project for branch demo with -- routung yes 
+2) create spring boot jpa project for branch in STS -- dependencies : Spring devtools, spring web,Spring Data JPA  ; java Version = 8.0
+ 
+we need to integrate spring-jpa with angular project 
+
+3) Open Application.properties : add below lines in spring proj
+     
+        spring.datasource.url=jdbc:mysql://localhost:3306/kranthis
+	spring.datasource.username=root
+	spring.datasource.password=Ks_961796
+
+	spring.datasource.hikari.connection-timeout=20000
+	spring.datasource.hikari.minimum-idle=5
+	spring.datasource.hikari.maximum-pool-size=12
+	spring.datasource.hikari.idle-timeout=300000
+	spring.datasource.hikari.max-lifetime=1200000
+
+	spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+	spring.jpa.properties.hibernate.id.new_generator_mappings = false
+	spring.jpa.properties.hibernate.format_sql = false
+	spring.jpa.hibernate.ddl-auto=update
+	spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+	logging.level.org.hibernate.SQL=DEBUG
+	logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+Above to add  dialect: "org.hibernate.dialect.MySQL8Dialect" first we need to add mysql connector jar as below then above it shows options to mysqldialect
+
+4) Open Pom.xml :  Add mysql connector jar dependencies (8.0.23 version)
+            
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+    		<groupId>mysql</groupId>
+    		<artifactId>mysql-connector-java</artifactId>
+    		<version>8.0.23</version>
+	</dependency>
+
+5)Create Branch class:
+         & add @Entity @Id (then JPA will create table in mysql db automatically)
+
+6)Create Interface:
+       BranchRepository extends JpaRepository<Entity class, p.k> & add @Repository annotation
+
+7) Create Service class(BranchService):
+      - Add @Service annotation &  @Autowire BranchRepository in service class 
+      - write all JPA crud operations methods like : save(),findAll(), findById(),delete()
+
+8)Create Controller class(BranchController):
+      - Add @RestController annotation
+      - write URLS(GET, POST,PUT,DELETE) for each method add,del,modify..              (In MVC project controller takes only POST,GET whereas SpringBoot takes all)
+      - @Autowire BranchService in controller
+      - Add appropriate @RequestBody , @PathVariable for all url methods
+
+9) Run the program check REST api with spring JPA is working or not by belwo url:
+    
+       http://localhost:8080/branch/
+       http://localhost:8080/branch/2007  (when we search by ID if only one element found then it will returns..or else more than one element is found returns error)
+
+-------------------------------------
+10) Create Angular project & open in vscode
+                run : ng serve -o   (to see working or not) o/p : Default Angular web page
+    -remove everything from (app.component.html)   & run    o/p : nothing
+
+11) Create Branch component using : ng g c branch
+           Service          using : ng g s branch
+
+12) index.html : copy "bootstrap lines" in  header from w3schools
+     
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+13) Open (app.component.html) :
+       -write <div> tags
+       - insert created branch component " <app-branch> " in <div> tag & Run ,see o/p : branch works  ( <app-branch> is selector: in (branch.component.ts))
+
+14) Open (app.module.ts): (import)
+      FormsModule
+      ReactiveFormsModule
+      
+    import {} from '@angular/common/http';        (first write this import and import below one )
+      HttpClientModule                            (commons - category)
+
+15) Open (branch.component.ts): write below lines
+
+      branchForm:any;
+      constructor(private fb:FormBuilder) {
+          this.branchForm=this.fb.group({
+    	  bid:[],
+      	  bname:[],
+      	  bcity:[]
+    	})
+      }
+
+16) Open (branch.component.html): write html form code
+      include: 
+            [formGroup]="branchForm"  ( should be same as in (branch.ts) linking both .ts & .html)   [formGroup] is in square braces because it is variable not constant
+            formControlName="bid      ( should be same as variables  declared as [] in (branch.ts))
+
+  Run and see Html web page displays o/p: Branch Form
+
+---- Rest services---
+
+17) Open (branch.service.ts):  write "Httpclient" in constructor & Main Url:string ,then define all methods (like we do in controller class in RestApi Proj (get,post,del,))
+ 
+        url:string='http://localhost:8080/branch';
+ 	 constructor(private http:HttpClient) { }
+ 	 getAllBranches()
+  	{
+   	 return this.http.get(this.url);
+ 	 }
+
+18) Display records table on webpage : DO IT IN (branch.component.ts)
+      Open (branch.component.ts):
+         - branches:any;                                                             ->  declare variable 
+         - constructor(private fb:FormBuilder, private bs:BranchService)             ->  pass branchservice param in constructor
+         - ngOnInit(): void {
+   		 this.bs.getAllBranches().subscribe((data)=>console.log(data));      -> call service method "bs.getAllBranches()" only in ngOnInit(){} to disp table whenver it loads
+  		}
+       
+19) Run and click inspect (webpage) u will get error as :
+           CORS policy: No 'Access control allow origin'    
+
+    Cross Origin Resource Sharing:  our spring boot rest api runs in 8080 port
+     -----------------------------  our angular project runs in 4200 port
+             
+     Spring rest api should allow other application to access from cross origin  ->  use  @CrossOrigin  in controller class of spring jpa project
+                                                                                            - @CrossOrigin(origins = {"http://localhost:4200","*"})
+20) Run the program u can see table of records in console () as below
+          10) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}] becoz we have tested above as console.log
+    Ok its working , remove console.log and write code to display table on page
+
+21) "this.branches=data " Write this in ngOnInit()
+
+    ngOnInit(): void {
+    //this.bs.getAllBranches().subscribe((data)=>console.log(data));
+    this.bs.getAllBranches().subscribe((data)=>{
+     console.log(data);
+     this.branches=data;                                                    // we are getting records via (data) varible and received data storing in branches  [] array to display on page
+    });
+  }
+
+22) Go to (branch.component.html) :  create <table> below form -> we used ngFor*
+
+           <tr *ngFor="let b of branches">         ->  this  "branches" contains array[] of records & it's declared in (branch.component.ts) see 21. point
+
+23)now we need to write click events
+    - Open (branch.html) define select(), add(), modify(), delet()  click events & write logic of this events in branch.ts
+    - Open (branch.ts) write fnSelect(),fnAdd(), fnModify(),fnDelete() write logic in it
+
+24)Run the Program & check output by adding,delete,modify & selecting in form
+    - if you get error while deleting branch obj : see spring boot project did u mentioned @PathVaribale("id") because we delete object using "id" only
+
+25 ----------------------completed SpringBoot integration with Angular project---------------------------
+       

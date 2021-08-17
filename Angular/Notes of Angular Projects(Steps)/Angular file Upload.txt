@@ -1,0 +1,247 @@
+File Upload
+-------------
+	<input type="file" (change)="fnChange()" />
+
+NOT WHEN WE SUBMIT THE FORM OR WHEN WE CLICK BUTTON TO SUBMIT
+When we select the file itself, we need to capture the file info in a variable OR patch it to the file field of reactive form
+
+File data type
+file : File
+-----------------
+we are not going to send a JSON object to the service 	(when there is a file in the form)
+
+	FormData
+		key-value
+
+in spring boot controller or rest controller
+	RequestParam
+		what is request param?
+			whenever we send data as a form that contains text box or any element
+			or when we send query string		?key=value&key2=value2
+
+Create PROJECT(has 2 sub projects) :
+-------------------------------
+Food
+	id
+	name
+	expiryDate
+	pic
+
+ 1)angular project name:-
+	        food-project
+                             app component
+                             food component
+ 2)REST API:-
+	entity class
+	repository interface
+	service class
+	controller class
+
+----------------------------------------------------------------------Steps-------------------------------------------
+1)Project Creation
+  
+   - Create Angular project in cmd for front end  
+                             " ng new Angular-file-movie "
+   - Create Spring JPA project in STS for back end
+                             " angular-spring-file-movie" ->java8,Maven,war & add dependencies : devtools,spring web, spring Data JPA
+  PROJECTS:
+  --------
+   i) Angular-file-movie
+  ii) angular-spring-file-movie
+
+
+1) Open " angular-spring-file-movie " project in STS
+
+2) Open (application.properties): add 
+
+	spring.datasource.url=jdbc:mysql://localhost:3306/kranthis
+	spring.datasource.username=root
+	spring.datasource.password=Ks_961796
+
+	spring.datasource.hikari.connection-timeout=20000
+	spring.datasource.hikari.minimum-idle=5
+	spring.datasource.hikari.maximum-pool-size=12
+	spring.datasource.hikari.idle-timeout=300000
+	spring.datasource.hikari.max-lifetime=1200000
+
+	spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+	spring.jpa.properties.hibernate.id.new_generator_mappings = false
+	spring.jpa.properties.hibernate.format_sql = false
+	spring.jpa.hibernate.ddl-auto=update
+	spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+	logging.level.org.hibernate.SQL=DEBUG
+	logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+3) Run the spring project now it will work but, without adding above spring jpa configuration in (application.properties) shows : application build failed
+
+4) Go to mvn repository add "my-sql-connector"(8.0.23 v) jar or dependency in (pom.xml)
+
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+    		<groupId>mysql</groupId>
+    		<artifactId>mysql-connector-java</artifactId>
+    		<version>8.0.23</version>
+	</dependency>
+
+5) Create Entity Class(Movie): use 
+  	@Entity
+  	@Id
+  	@Lob - it is used for picture(file)
+
+   Run the spring project, then JPA will create automatically table in mysql database
+
+3) Open MySQL database :
+    check table created or not - table created with name " movie "
+
+4) Create Repository Interface(MovieRepository):
+    - @Repository
+    - extends to JpaRepository<Movie.Long>
+
+5) Create Service class (MovieService):
+    - @Service
+    - @Autowired MovieRepository 
+    - create all crud operations methods here directly
+
+6) Create Controller class (MovieController):
+    - @RestController  : becoz it is Rest API Service
+    - @CrossOrigin     : allowing access for running two project on different server
+    - @Autowired MovieService
+    - Creat all REST API services
+          get,post,put,delete - instead passing whole object as @RequestBody pass individually param as @RequestParam because of file (MultipartFile type) 
+
+  - MultipartFile file : -> byte[] 
+   	byte[] picture = file.getBytes();                
+   	movie.setPicture(picture);
+  - Using Logger
+        log.info("The picture file has "+picture.length+" bytes");  - used log to see wheather file is coverted to bytes are not
+  - 
+
+-----Completed Rest API service --------------------------------		
+
+7) Open " angular-spring-file-movie " in vs code
+
+8) Run project  " ng serve -o"  (see project created or not)
+   then
+   Create Components using below commands
+     - ng g c movie
+     - ng g s movie
+
+9) Open (app.module.ts): write import statemnt first & import HttpClientModule , these are two access services in RestAPI Project
+    
+     -  import { HttpClientModule } from '@angular/common/http'
+         HttpClientModule
+
+10) Open (movie.service.ts) :
+     - intialize constructor with "HttpClient"
+            constructor(private http:HttpClient) { }
+     - declare common url first :
+            url:string='http://localhost:8080/movie'; 
+            
+     - define all REST Api service methods to access those methods using 
+            ex: findMovieById(id:any)
+ 			 {
+    				return this.http.get(this.url+"/"+id);
+  			}
+  		addMovie(movie:any){                               //this is not object of movie. this is object of form data
+    				return this.http.post(this.url,movie);
+  			}	
+    
+11) Open (index.html): copy bootstrap lines from w3 schools
+    
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+12) Open (app.component.html) : remove default code write <div> tags to plugin components
+    
+       <app-movie></app-movie>  plug this movie component in (app.component.html)
+ 
+   
+13) import  ReactiveFormsModule in (app.module.ts)
+
+14) Open (movie.component.ts) : write below lines like linking .html & .ts fle (of movie component)   
+        
+	movieForms:any;                                                                       // movieForms -- like as @modelAttribute in spring
+        constructor(private fb: FormBuilder) { 
+    		this.movieForms=this.fb.group({
+      		  id:[''],
+      		  name:[''],
+      		  releaseDate:[''],
+      		  picture:['']
+          });
+    }
+
+15) Open (movie.component.html) : create movie form
+          -  <form [formGroup]="movieForm">    ->  above (in movie.component.ts) declared varible holds whole form data
+          -  formControlName="id"              ->  ex: "id" (input variable) should be same name as (movie.ts) declared varibles in constructor
+
+16) For file click (select) event: (whenever file /pic is selected the file info is added directly )
+   
+     i. Open(movie.component.html) :-  write this changEvent   <input type="file"  (change)="fnChange($event)">
+            
+    ii. Open (movie.component.ts) :- write change event code here as below
+   			file:File; / file:any
+
+ 			fnChange(event)
+  		         {
+  			  this.file=event.target.files[0];
+  			  console.log(this.file.name);
+   			  console.log(this.file.size);
+ 			 }
+       
+
+17) Add fnAdd() in (movie.component.html) & define code in (movie.component.ts):
+      Entered data in html form will submitted, sent to database to store it 
+ 
+   Open(movie.component.ts):
+    - Inject MovieService in constructor
+                        constructor(private fb: FormBuilder, private ms: MovieService) { }
+    - Define fnAdd()
+                       fnAdd()
+		       {
+   			 var fd=new FormData();
+   			 // alert(this.foodForm.controls['expiryDate'].value);
+   			 fd.append("id",this.movieForm.controls['id'].value);
+   			 fd.append("name",this.movieForm.controls['name'].value);
+    			 fd.append("releaseDate",this.movieForm.controls['releaseDate'].value);
+    			 fd.append("picture",this.file,this.file.name);
+
+   			 this.ms.addMovie(fd).subscribe(data=>console.log(data));
+                        }
+
+18) Run the program & see entered data storing in mysql database or not
+      or else if error is shown for date : like string is not stored  take input data in string format & parse it store in databse using simpleDataFormat
+
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		movie.setReleaseDate(sdf.parse(releaseDate));                     // @RequestParam("releaseDate") String releaseDate;       
+
+19) Run the spring boot Rest Api & Angular project
+    Add details by selecting file...submit it then see details are stored in mysql db & also we can see in console
+
+20) Display all records on webpage whenever page loads
+    for this Open (movie.component.ts) :  //implement Onchanges , Docheck methods
+
+                                         // export class MovieComponent implements OnInit, OnChanges, DoCheck {
+
+     ngOnInit(): void {
+           this.ms.getAllMovies().subscribe(data=>this.movies=data);                 // for displaying table of records on webpage
+      }
+  
+   if you write code in ngOnInit ,all table records will loaded displayed first before the form is submitted
+
+21) Last Create table in (movie.component.html):
+     for displaying records        -  for image to display use base64 format in html tag directly 
+       
+       <tr *ngFor="let f of movies">
+            <td>{{f.id}}</td>
+            <td>{{f.name}}</td>
+            <td>{{f.releaseDate}}</td>
+            <!-- <td>{{f.picture}}</td> -->
+            <td><img width="150" src="data:image/png;base64,{{f.picture}}" /></td>                    
+        </tr>
+
+22) Run both projects add movie details & 
+     check using mysql db or using POSTMAN URLS
+
+   implemented only Add event ...similarly do modify, delete events as well 
