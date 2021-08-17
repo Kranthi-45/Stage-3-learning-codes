@@ -1,0 +1,268 @@
+install docker for windows 
+	https://docs.docker.com/docker-for-windows/install/
+	after downloading 
+		Docker Desktop Installer.exe
+	execute the above downloaded file
+
+Restart computer
+
+update wsl:
+	Download the Linux kernel update package
+	https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
+	execute it
+
+Restart computer
+
+--------------------------
+Lets run an existing application in docker.
+1) open cmd / terminal
+2) docker run in28min/todo-rest-api-h2:1.0.0.RELEASE
+
+3) docker run -p 5000:5000 in28min/todo-rest-api-h2:1.0.0.RELEASE
+4) http://localhost:5000/hello-world
+	check this in a browser
+	(also)
+  http://localhost:5000/hello-world-bean
+ 
+  -if it doesn't work close all cmds again refresh & 
+  open docker -> Containers/Apps or Volumes -> there are hello world images click on restart or run
+  then try localhost above commands in browser
+
+Docker commands:
+----------------
+5) 
+	i) To check the running containers list
+		docker container ls
+	ii) To check all the containers list
+		docker container ls -a
+6) to kill a container
+	docker stop <<container-id>>
+	docker container stop <<container-id>>
+
+	stop vs kill	(stop gracefully. Kill immediately)
+sts
+7) to run a docker container in the background
+	docker run -p 5000:5000 -d in28min/todo-rest-api-h2:1.0.0.RELEASE
+8) to check the logs,
+	docker logs <<container-id>>
+	(also)
+	docker logs -f <<first 5 digits of container id>>
+9) docker images
+	to list the images
+
+  -- when u stop or kill the docker then above localhost hello world will not work (becoz image is removed from      container)
+  -- run 
+      docker images
+       then no conatiner with images will be showed
+
+--------------------------------------------------------------------------------------------------------
+============================================= Deploy SpringBootApp proj in Docker============================
+---------------------------------------------------------------------------------------------------------------
+
+Lets deploy our java application in docker
+visit:
+	hub.docker.com
+sign in and search 
+	openjdk
+
+under "how to use this image", you can find "start a java instance in your app"
+
+FROM openjdk:7
+COPY . /usr/src/myapp
+WORKDIR /usr/src/myapp
+RUN javac Main.java
+CMD ["java", "Main"]
+
+-----------
+go to pom.xml and add the following below the </plugins>
+	<finalName>docker-spring-jag</finalName>
+rebuild and create the jar/war
+
+FROM openjdk:8
+ADD target/docker-spring-jag.war docker-spring-jag.war		(local jar path & the container path.here it is root)
+EXPOSE 8085
+--------------------------------------=====================Dockerfile-------------------------
+FROM java:8
+
+EXPOSE 8080
+
+ADD target/docker-demo.jar docker-demo.jar
+
+ENTRYPOINT ["java","-jar","docker-demo.jar"]
+
+-----------------------------------------------------------------
+
+-Creat one project in STS sprinboot-RestApi project :
+
+1) Create project (springRest-docker-demo) : java 8, jar, maven &
+                          add dependencies : springweb, devtools
+
+2)Open main class(SpringRestDockerDemoApplication.java): write sample restcontroller code
+
+	@SpringBootApplication
+	@RestController
+	public class SpringRestDockerDemoApplication {
+
+		@GetMapping("/")
+		public String home() {
+			return "Hai Kranthi this is docker deploy demo";
+		}
+		public static void main(String[] args) {
+			SpringApplication.run(SpringRestDockerDemoApplication.class, args);
+		}
+           }
+
+3) Then create jar file of above created project:
+   project(right click) -> Run As -> Maven build -> Goals: clean install -> apply&close ->Build Success(console) 
+  
+   - if Build-failure 
+       => windows -> preference -> java -> installed JREs -> Add JDK file externally & apply close
+
+4) Refresh project (right click & refresh) ->  Under target folder(of spring project) 
+   -> jar file is created (springRest-docker-demo-0.0.1-SNAPSHOT.jar)
+
+5) Create file (Dockerfile): (in the same location where pom.xml exists)
+   - Rightclick (project)-> New -> file -> Dockerfile(with no extensions like .txt , if not => use command:  Dockerfile rename  )
+  
+   now u can see in project Dockerfile is created
+
+6) Open Dockerfile : write below lines
+
+	From java:8
+	Expose 8080
+	ADD target/springRest-docker-demo-0.0.1-SNAPSHOT.jar springRest-docker-demo-0.0.1-SNAPSHOT.jar
+	ENTRYPOINT ["java","-jar","springRest-docker-demo-0.0.1-SNAPSHOT.jar"] 
+
+7) Again Run As -> Maven build -> Build success
+
+
+8) Open CMD in project workspace location directroy
+                   C:\Users\DELL\Documents\Spring Tool Projects5\springRest-docker-demo
+ 
+    CMD opens
+           -> dir
+  
+           -> docker images
+
+   - no images are seen when u run above commands(so we need to create image of our project to deploy in docker)
+      
+10) Docker Repository:
+    
+      - https://hub.docker.com/
+ 
+      - Create repository (possibly create with same project name(or image) for easy debugging)
+         ex: springrest-docker-demo
+
+11) Open cmd in project folder directory:
+                    C:\Users\DELL\Documents\Spring Tool Projects5\springRest-docker-demo
+   
+    docker build -t "repositoryname" (repo name must be small letters only)
+
+    -> docker build -t springrest-docker-demo .
+   
+    -After above command docker image is created gets below mssg 
+        Building[7/7]- FINISHED
+
+12) Open CMD (normal default user directory):
+                                    C:\Users\DELL>
+
+    -> docker images
+
+   now u can see image is created by executing above command in cmd
+  
+  CMD(view) :
+  --------
+	C:\Users\DELL\Documents\Spring Tool Projects5\springRest-docker-demo>docker images
+
+	REPOSITORY                 TAG             IMAGE ID       CREATED             SIZE
+	springrest-docker-demo     latest          c6415d97a3f0   About an hour ago   661MB	
+	in28min/todo-rest-api-h2   1.0.0.RELEASE   f8049a029560   2 years ago         143MB
+
+13) Push:
+  
+    now lets push this image to the Docker Hub
+	before that check the repository created in step 10. 
+	Last pushed: never (notice this)
+ 
+        i)  go to cmd (any directory / prefer mostly (project directory))
+	ii) docker tag jag-docker-demo-1 jagindia/firstrepo
+           EX: 
+            -> docker tag springrest-docker-demo 919676/springrest-docker-demo
+
+	iii) docker push jagindia/firstrepo
+		or
+	    docker push jagindia/jag-docker-demo-1
+            EX:
+            -> docker push 919676/springrest-docker-demo
+
+     Error: " requested access to the resource is denied error "
+     reason : which means you as a docker user do not have the correct rights/permission to run the docker push or any other docker command.(u should login docker if we push)
+     step:
+     ----   logout , build & tage docker image correctly, login , then push the image into docker hub  
+      
+     * -> docker logout
+     * -> docker build -t springrest-docker-demo .
+     * -> docker push 919676/springrest-docker-demo      
+     * -> docker login
+
+        Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+	Username: 919676
+	Password:
+	Login Succeeded
+
+	iv) docker images
+
+	v) remove local images using
+		docker rmi <<imagename>>              
+	vi) check images again
+		docker images
+ 
+14) check if our spring boot app is running now (open another default cmd) try below command
+	 -> ping 8080
+	    not running
+
+15)  run the spring boot app from docker hub
+	docker run -p 8080:8080 jagindia/firstrepo
+     EX:
+       -> docker run -p 8080:8080 919676/springrest-docker-demo
+	
+16) check localhost:8080
+
+   o/p : Hai Kranthi this is docker deploy demo
+
+17) After docker deploy demo
+      if you want to remove all images & containers try below commands, then all images & containers are removed
+
+
+---------------------------------------------------deleting images or containers which are running--------------------------------------------
+
+when manually removing images in docker desktop app if it not deleted try below commands  
+                         after that open again docker desktop try to remove , it will get removed now
+
+dir
+
+docker container ls      (c-id: 10081fe38d0b found )
+        
+                         (<container-id>)
+docker stop 10081fe38d0b 
+
+docker container ls      ( no c-id found becoz it is stopped)
+
+docker image ls          ( it will shows all images in docker repository (in use or no used))
+
+docker ps                (shows nothing)
+
+docker ps -a             (but shows hidden running images)
+
+docker kill 10081fe38d0b
+   (Error response from daemon: Cannot kill container: 10081fe38d0b: Container 10081fe38d0b628369b7fcbf3e94d647852752f4812c3345aedfd78f3c0182fd is not running
+
+docker rm 10081fe38d0b   (from hidden running images in removed)
+
+docker ps -a             (now this command shows no hidden running becoz we removed above)
+
+
+    open docker desktop there is no images which u have removed if it is not removed u can do it manually now it will deleted easily
+
+
+

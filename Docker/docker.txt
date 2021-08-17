@@ -1,0 +1,34 @@
+from Jagadeeswaran Rangappan to everyone:    2:28 PM
+docker run -p 8080:8080 jagindia/aj007
+from Jagadeeswaran Rangappan to everyone:    2:29 PM
+install docker for windows 
+    https://docs.docker.com/docker-for-windows/install/
+    after downloading 
+        Docker Desktop Installer.exe
+    execute the above downloaded file
+Restart computer
+update wsl:
+    Download the Linux kernel update package
+    https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
+    execute it
+Restart computer
+--------------------------------
+Lets run an existing application in docker.
+1) open cmd / terminal
+2) 
+3) docker run -p 5000:5000 in28min/todo-rest-api-h2:1.0.0.RELEASE
+4) http://localhost:5000/hello-world
+    check this in a browser
+    (also)
+   http://localhost:5000/hello-world-bean
+5) 
+    i) To check the running containers list
+        docker container ls
+    ii) To check all the containers list
+        docker container ls -a
+6) to kill a container
+    docker stop <<container-id>>
+    docker container stop <<container-id>>
+    stop vs kill    (stop gracefully. Kill immediately)
+7) to run a docker container in the background
+    docker run -p 5
