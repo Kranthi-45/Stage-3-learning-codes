@@ -1,0 +1,15 @@
+IMPORTING & RUNNING ANGULAR PROJECT :
+-------------------------------------
+
+1) Open the Project in VScode where "src" folder location there or with "src" folder location
+2) Open the angular project src via open folder in vs studio 
+                        or
+   -At src folder location type cmd in address bar (open cmd where src location is available)
+   - command: code . (opens vs studio directly)
+   
+3) Type commands: (after opening in vs studio)
+  - npm install
+  - ng build
+  - ng serve -o
+    
+             
