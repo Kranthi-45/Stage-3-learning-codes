@@ -145,3 +145,9 @@ git remote rm origin
 
 4) Pulling is also Done check folder wheather the files pulled from repository or not
 
+-------------------------------------------pushed files not clikable (Remove commited folders from repo )-------------
+
+git rm --cached -- components(folder name)
+git commit -m "remove components entry"
+git push
+
