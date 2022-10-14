@@ -1,5 +1,35 @@
                                                                     GIT
                                                                   _______
+						  
+								  
+=====================================================================  Git Commands explantion ===========================================================
+
+git init              --> intiazile git
+git status            --> shows files in current local & stagged  =  green color means stagged files(after add .), red means not stagged files
+git add .             
+git add <filname.extension>       --> it will move the current dir files to stagged area/status = stagged files only will ready for commit
+git restore .                     --> if u edited/remved some files need to get refresh & update in stagged so need to use restore to refresh the stagged files as well
+git branch -M main    		  --> currently git is on main branch , shift to main branch
+git branch -M feature-branch1	  --> shifted git to feature-branch1 child branch
+git remote add origin https://github.com/Kranthi-45/Reactp-Redux-Projects.git       --> adding github origin address
+git remote rm origin     	  --> to remove above added/current origin from git init
+git config --get remote.origin.url   --> returns current origin url
+Pull  & Push:
+------------
+git pull
+git pull https://github.com/Kranthi-45/Reactp-Redux-Projects.git main         --> pulling from specific repo path & branch(main)
+            or
+git pull origin main                                                          --> same as above pulling from main branch from curren repo url	  
+git pull https://github.com/Kranthi-45/Reactp-Redux-Projects.git main --allow-unrelated-histories            --> when pull refuses to merge use this
+git push -u origin main							                                     --> pushing to main
+
+git checkout  .
+git checkout                                                       --> tells about changes between locale up to date with 'origin/main' or not.	    
+git checkout main
+git checkout feature-branch1                                        --> and alsu used to shift to diff git branches
+
+=====================================================================  Git Commands explantion ===========================================================
+
 github.com
     create an account. Sign up
     create a repository
