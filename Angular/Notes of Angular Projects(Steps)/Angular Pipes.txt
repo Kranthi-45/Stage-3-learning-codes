@@ -33,7 +33,7 @@ Custom pipe: (ex: returning length of given string)
 1) create custome pipe component
      " ng g pipe headingLen "
   
-   After creating open (open.module.ts) u see " headingLen " will imported automatically.
+   After creating open (app.module.ts) u see " headingLen " will imported automatically.
 
 2) Open (heading-len.pipe.ts) file : write below code (of length)
 
