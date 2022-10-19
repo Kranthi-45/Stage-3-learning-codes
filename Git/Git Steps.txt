@@ -9,6 +9,7 @@ git status            --> shows files in current local & stagged  =  green color
 git add .             
 git add <filname.extension>       --> it will move the current dir files to stagged area/status = stagged files only will ready for commit
 git restore .                     --> if u edited/remved some files need to get refresh & update in stagged so need to use restore to refresh the stagged files as well
+git commit -m "first commit"
 git branch -M main    		  --> currently git is on main branch , shift to main branch
 git branch -M feature-branch1	  --> shifted git to feature-branch1 child branch
 git remote add origin https://github.com/Kranthi-45/Reactp-Redux-Projects.git       --> adding github origin address
