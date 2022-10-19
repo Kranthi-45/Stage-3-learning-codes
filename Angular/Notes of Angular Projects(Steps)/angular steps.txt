@@ -27,6 +27,7 @@ ng g c                component
 ng g s                 service
 ng g class            class
 ng g pipe            pipe
+ng g d               decorators
 annotations are called as Decorators in angular
 -------------------------------------------------------------
 1) create an angular project
