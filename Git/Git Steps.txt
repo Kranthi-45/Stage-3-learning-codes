@@ -1,20 +1,36 @@
-                                                                    GIT
-                                                                  _______
+                                                                   	   GIT
+                                                                          _______
 						  
 								  
 =====================================================================  Git Commands explantion ===========================================================
 
-git init              --> intiazile git
-git status            --> shows files in current local & stagged  =  green color means stagged files(after add .), red means not stagged files
+git init              		--> initiazile git
+git status            		--> shows files in current local & stagged  =  green color means stagged files(after add .), red means not stagged files
 git add .             
-git add <filname.extension>       --> it will move the current dir files to stagged area/status = stagged files only will ready for commit
-git restore .                     --> if u edited/remved some files need to get refresh & update in stagged so need to use restore to refresh the stagged files as well
+git add <filname.extension>     --> it will move the current dir files to stagged area/status = stagged files only will ready for commit
+git add -p                      --> add by changes done 
+git restore .                   --> if u edited/remved some files need to get refresh & update in stagged so need to use restore to refresh the stagged files as well
 git commit -m "first commit"
-git branch -M main    		  --> currently git is on main branch , shift to main branch
-git branch -M feature-branch1	  --> shifted git to feature-branch1 child branch
-git remote add origin https://github.com/Kranthi-45/Reactp-Redux-Projects.git       --> adding github origin address
-git remote rm origin     	  --> to remove above added/current origin from git init
-git config --get remote.origin.url   --> returns current origin url
+git branch -M main    		--> currently git is shift to main branch
+git branch -M feature-branch1	--> shifted git to feature-branch1 child branch
+git remote add origin https://github.com/Kranthi-45/Reactp-Redux-Projects.git      
+				--> adding github origin address of remote repo
+git remote rm origin     	--> to remove above added/current origin from git init
+git config --get remote.origin.url    			--> returns current origin url
+
+git branch 			--> shows all branches that are available
+
+git rm --cached -- components(folder name)		--> Remove commited folders from repo
+
+---------------------------------------------------------------linux commands-------------------
+ls                     -> shows files/folders in current path
+ls -a                  -> shows all files in from root path along with hidden files also
+ls -aR                 -> same as above but displays with fulll address each file/folder
+rm  <path/file-name>   ->  remove/del the file/folder 
+  ex: rm ./src/.git
+rm -rf ./src/.git       -> force remove if above rm commands does not works
+
+
 Pull  & Push:
 ------------
 git pull
@@ -27,7 +43,7 @@ git push -u origin main							                                     --> pushing t
 git checkout  .
 git checkout                                                       --> tells about changes between locale up to date with 'origin/main' or not.	    
 git checkout main
-git checkout feature-branch1                                        --> and alsu used to shift to diff git branches
+git checkout feature-branch1                                       --> and also used to shift to diff git branches
 
 =====================================================================  Git Commands explantion ===========================================================
 
@@ -82,8 +98,6 @@ git push -u origin main
 
 Git Pull commands
 -----------------------------
-
-
 git init
 git remote add origin https://github.com/jagasia/rajesh.git
 git pull origin swati
@@ -93,7 +107,7 @@ if you get remote folder is already exist , remove that using below commad
 
 git remote rm origin
 
-------------------------------------------------------------------------------------Steps Git Pushing------------------------------------------------------------
+-----------------------------------------------------------------------Steps Git Pushing in Brief------------------------------------------------------------
 
 1) Create Github account and sign up
 2) Download git application in your computer
@@ -148,7 +162,7 @@ git remote rm origin
 
 8) Pushing is Done check Repository    
      
---------------------------------------------------------------------------------Steps Git Pulling-----------------------------------------------------------
+---------------------------------------------------------------------------Steps Git Pulling Brief-----------------------------------------------------------
 
 1) Create new empty folder with any name 
          ->  ex: "Git Pull Demo"
@@ -176,7 +190,7 @@ git remote rm origin
 
 4) Pulling is also Done check folder wheather the files pulled from repository or not
 
--------------------------------------------pushed files not clikable (Remove commited folders from repo )-------------
+------------------------------------------------------pushed files not clikable (Remove commited folders from repo )-------------
 
 git rm --cached -- components(folder name)
 git commit -m "remove components entry"
