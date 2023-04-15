@@ -18,9 +18,26 @@ git remote add origin https://github.com/Kranthi-45/Reactp-Redux-Projects.git
 git remote rm origin     	--> to remove above added/current origin from git init
 git config --get remote.origin.url    			--> returns current origin url
 
-git branch 			--> shows all branches that are available
+git branch 			--> shows all branches that are available & current live branch we are on
+git checkout  .
+git checkout                                            --> tells about changes between locale up to date with 'origin/main' or not.	    
+git checkout main
+git checkout <feature-branch1-name>                     --> shift to diff branch mentioned after checkout
+git checkout -b  <branch-name-new>                      --> create new branch & then shift to that path
 
 git rm --cached -- components(folder name)		--> Remove commited folders from repo
+
+git clone <http-git-rep-url>
+
+git log 
+git log oneline           	--> to see commits, commitId & name who done
+
+git show <commit-hash>   	--> take from above git log the commit id & use here it will show total commited code
+q                        	--> quit from commit area
+
+git stash			--> to store the local changes temp while pulling dev branches to local
+git pull -r                     --> pull changes from remote repp
+git stash pop           	--> our local changes comebacks again
 
 ---------------------------------------------------------------linux commands-------------------
 ls                     -> shows files/folders in current path
@@ -39,11 +56,6 @@ git pull https://github.com/Kranthi-45/Reactp-Redux-Projects.git main         --
 git pull origin main                                                          --> same as above pulling from main branch from curren repo url	  
 git pull https://github.com/Kranthi-45/Reactp-Redux-Projects.git main --allow-unrelated-histories            --> when pull refuses to merge use this
 git push -u origin main							                                     --> pushing to main
-
-git checkout  .
-git checkout                                                       --> tells about changes between locale up to date with 'origin/main' or not.	    
-git checkout main
-git checkout feature-branch1                                       --> and also used to shift to diff git branches
 
 =====================================================================  Git Commands explantion ===========================================================
 
