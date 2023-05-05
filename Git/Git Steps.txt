@@ -25,6 +25,11 @@ git checkout main
 git checkout <feature-branch1-name>                     --> shift to diff branch mentioned after checkout
 git checkout -b  <branch-name-new>                      --> create new branch & then shift to that path
 
+git branch develop					--> creates new branch with develop name
+git branch checkout  develop			   	--> creates & shift to new branch
+git branch -D feature-name					--> delete the branch
+git branch -m main					--> rename of branch
+Git branch -m <old-name> <new-name>
 git rm --cached -- components(folder name)		--> Remove commited folders from repo
 
 git clone <http-git-rep-url>
